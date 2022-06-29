@@ -28,12 +28,11 @@ class ProductAssetController extends Controller
 
     public function store(ProductAssetRequest $request)
     {
-        $request->validated();
-
         $user = auth()->user();
+        $request['user_id'] = $user->id;
         $product = Product::where('id', $request->product_id)->first();
-        
-        // Store image
+
+        $request->validated();                
         $request->file('image')->storeAs('images', $request->image->getClientOriginalName());
 
         $product_asset = new ProductAsset();

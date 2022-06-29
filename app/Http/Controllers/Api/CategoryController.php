@@ -42,10 +42,11 @@ class CategoryController extends Controller
     }
 
     public function store(CategoryRequest $request)
-    {
-        $request->validated();
+    {        
+        $user = auth()->user();     
+        $request['user_id'] = $user->id;   
 
-        $user = auth()->user();        
+        $request->validated();
         $category = new Category($request->all());        
         $category->user()->associate($user);        
         $category->save();
@@ -70,7 +71,7 @@ class CategoryController extends Controller
 
     public function destroy($id)
     {
-        $category = Category::with('user')->find($id)->first();
+        $category = Category::where('id', $id)->first();
         if (auth()->user()->id == $category->user_id) {
             $category->delete();
             return $this->apiSuccess($category);

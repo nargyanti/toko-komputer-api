@@ -21,7 +21,7 @@ class ProductController extends Controller
     public function index()
     {
         $user = auth()->user();
-        $product = Product::with('user', 'category', 'product_asset')
+        $product = Product::with('product_asset')
             ->where('user_id', $user->id)
             ->get();
 
@@ -31,7 +31,7 @@ class ProductController extends Controller
     public function sortByPriceDescending() 
     {
         $user = auth()->user();
-        $product = Product::with('user', 'category', 'product_asset')
+        $product = Product::with('product_asset')
             ->where('user_id', $user->id)
             ->orderBy('price', 'DESC')
             ->get();
@@ -42,11 +42,12 @@ class ProductController extends Controller
 
     public function store(ProductRequest $request)
     {
-        $request['slug'] = Str::slug($request->name);
-        $request->validated();
-
         $user = auth()->user();    
 
+        $request['slug'] = Str::slug($request->name);
+        $request['user_id'] = $user->id;
+        
+        $request->validated();
         $product = new Product($request->all());    
             
         $category = Category::where('id', $request->category_id)->first();
@@ -74,7 +75,7 @@ class ProductController extends Controller
 
     public function show($id)
     {
-        $product = Product::with('user', 'category', 'product_asset')->find($id)->first();
+        $product = Product::with('product_asset')->find($id)->first();
         return $this->apiSuccess($product);
     }
 
@@ -88,21 +89,21 @@ class ProductController extends Controller
         $product->slug = $request->slug;
         $product->price = $request->price;
         
-        $user = auth()->user();        
+        $user = auth()->user();
         $category = Category::where('id', $request->category_id)->first();
         $product->user()->associate($user);
         $product->category()->associate($category);
 
         $product->save();
-        return $this->apiSuccess($product);
+        return $this->apiSuccess($product->load('product_asset'));
     }
 
     public function destroy($id)
     {
-        $product = Product::with('user', 'category')->find($id)->first();
+        $product = Product::where('id', $id)->first();
         if (auth()->user()->id == $product->user_id) {
             $product->delete();            
-            return $this->apiSuccess($product);
+            return $this->apiSuccess($product->load('product_asset'));
         }
         return $this->apiError(
             'Unauthorized',
