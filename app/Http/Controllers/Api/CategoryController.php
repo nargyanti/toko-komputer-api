@@ -10,6 +10,7 @@ use App\Models\Category;
 use App\Models\User;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Exception\HttpResponseException;
+use DB;
 
 class CategoryController extends Controller
 {
@@ -21,6 +22,21 @@ class CategoryController extends Controller
         $category = Category::with('user')
             ->where('user_id', $user->id)
             ->get();
+
+        return $this->apiSuccess($category);
+    }
+
+    public function sortByProductAmountDescending()
+    {        
+        $user = auth()->user();
+        
+        $category = DB::table('categories')
+                        ->select(DB::raw('categories.id, categories.name, count(products.id) as amount'))
+                        ->where('categories.user_id', $user->id)
+                        ->join('products', 'products.category_id', '=', 'categories.id')
+                        ->orderBy('amount', 'DESC')
+                        ->groupBy('categories.id')
+                        ->get();
 
         return $this->apiSuccess($category);
     }

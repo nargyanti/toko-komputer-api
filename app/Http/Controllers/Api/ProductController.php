@@ -20,12 +20,24 @@ class ProductController extends Controller
     public function index()
     {
         $user = auth()->user();
-        $product = Product::with('user', 'category')
+        $product = Product::with('user', 'category', 'product_asset')
             ->where('user_id', $user->id)
             ->get();
 
         return $this->apiSuccess($product);
     }
+
+    public function sortByPriceDescending() 
+    {
+        $user = auth()->user();
+        $product = Product::with('user', 'category', 'product_asset')
+            ->where('user_id', $user->id)
+            ->orderBy('price', 'DESC')
+            ->get();
+
+        return $this->apiSuccess($product);
+    }
+
 
     public function store(ProductRequest $request)
     {
@@ -41,13 +53,13 @@ class ProductController extends Controller
 
         $product->save();
 
-        return $this->apiSuccess($product->load('user', 'category'));
+        return $this->apiSuccess($product);
     }
 
     public function show($id)
     {
-        $product = Product::with('user', 'category')->find($id)->first();
-        return $this->apiSuccess($product->load('user', 'category'));
+        $product = Product::with('user', 'category', 'product_asset')->find($id)->first();
+        return $this->apiSuccess($product);
     }
 
     public function update(ProductRequest $request, Product $product)
@@ -66,7 +78,7 @@ class ProductController extends Controller
         $product->category()->associate($category);
 
         $product->save();
-        return $this->apiSuccess($product->load('user', 'category'));
+        return $this->apiSuccess($product);
     }
 
     public function destroy($id)

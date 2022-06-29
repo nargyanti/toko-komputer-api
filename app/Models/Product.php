@@ -22,6 +22,7 @@ class Product extends Model
         'price',
         'user_id'
     ];
+    
 
     public function product_asset()
     {
