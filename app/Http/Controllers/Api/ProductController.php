@@ -41,7 +41,7 @@ class ProductController extends Controller
 
         $product->save();
 
-        return $this->apiSuccess($product->load('user'));
+        return $this->apiSuccess($product->load('user', 'category'));
     }
 
     public function show($id)
@@ -66,13 +66,14 @@ class ProductController extends Controller
         $product->category()->associate($category);
 
         $product->save();
-        return $this->apiSuccess($product->load('user'));
+        return $this->apiSuccess($product->load('user', 'category'));
     }
 
     public function destroy($id)
     {
+        $product = Product::with('user', 'category')->find($id)->first();
         if (auth()->user()->id == $product->user_id) {
-            $product->delete();
+            $product->delete();            
             return $this->apiSuccess($product);
         }
         return $this->apiError(
