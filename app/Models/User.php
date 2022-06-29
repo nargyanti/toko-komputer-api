@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use App\Models\Todo;
+use App\Models\Product;
+use App\Models\ProductAsset;
 use App\Models\Category;
 
 class User extends Authenticatable
@@ -53,4 +54,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(Product::class);
     }
+
+    public function product_asset()
+    {
+        return $this->hasMany(ProductAsset::class);
+    }
 }
+
+
