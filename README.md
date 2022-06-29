@@ -1,64 +1,66 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# Toko Komputer API
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Toko Komputer API is an API that is used to create, read, edit, and delete product data from the Toko Komputer that selling various needs.
 
-## About Laravel
+## Relational Table
+![Database design](/public/assets/images/readme/relational-table.png)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Endpoint
+### Authentication
+```
+POST    /register   Register to API
+POST    /login      Log In to API
+POST    /logout     Log Out from API
+```
+### Category
+```
+GET     /category                            Show categories created by auth user
+GET     /category/sort_by_product_amount     Show categories created by auth user sort by product amount descending
+```
+### Product
+```
+GET     /product                 Show products created by auth user
+GET     /product/sort_by_price   Show products created by auth user sort by price descending
+POST    /product                 Add new product with multiple image
+PUT     /product/{id}            Edit product
+DELETE  /product/{id}            Delete product with its assets
+```
+### Product Asset
+```
+POST    /product                 Add new product asset
+DELETE  /product/{id}            Delete product asset
+```
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Screenshots
+### Authentication
+1. Register
+![Register](/public/assets/images/readme/register.png)
+2. Login
+![Login](/public/assets/images/readme/login.png)
+3. Logout
+![Logout](/public/assets/images/readme/logout.png)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Category
+1. Show category
+![Show category](/public/assets/images/readme/categories.png)
+2. Show category sort by product amount
+![Show categories sort by product amount](/public/assets/images/readme/categories-sort-by-product-amount.png)
 
-## Learning Laravel
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Product
+1. Show products
+![Show products](/public/assets/images/readme/products-with-assets.png)
+2. Show products sort by price
+![Show products sort by price](/public/assets/images/readme/products-sort-by-price.png)
+3. Add product with multiple image
+![Add product](/public/assets/images/readme/add-product.png)
+4. Edit product 
+![Edit product](/public/assets/images/readme/edit-product.png)
+5. Delete product 
+![Delete product](/public/assets/images/readme/delete-product.png)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### Product asset
+1. Add new product asset 
+![Add product asset](/public/assets/images/readme/add-product-asset.png)
+2. Delete new product asset
+![Delete product asset](/public/assets/images/readme/delete-product-asset.png)
