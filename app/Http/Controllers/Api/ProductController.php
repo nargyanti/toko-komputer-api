@@ -7,6 +7,7 @@ use App\Http\Requests\ProductRequest;
 use App\Http\Requests\ApiRequest;
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\ProductAsset;
 use App\Models\User;
 use App\Models\Category;
 use App\Traits\ApiResponse;
@@ -44,16 +45,31 @@ class ProductController extends Controller
         $request['slug'] = Str::slug($request->name);
         $request->validated();
 
-        $product = new Product($request->all());    
+        $user = auth()->user();    
 
-        $user = auth()->user();        
+        $product = new Product($request->all());    
+            
         $category = Category::where('id', $request->category_id)->first();
         $product->user()->associate($user);
         $product->category()->associate($category);
 
         $product->save();
 
-        return $this->apiSuccess($product);
+        if($request->hasfile('image')) {
+            foreach($request->file('image') as $image)
+            {            
+                $image->storeAs('images', $image->getClientOriginalName());
+        
+                $product_asset = new ProductAsset();
+                $product_asset->image = $image->getClientOriginalName();
+                $product_asset->product_id = $product->id;
+                
+                $product_asset->user()->associate($user);
+                $product_asset->product()->associate($product);
+                $product_asset->save();                        
+            }                    
+        }        
+        return $this->apiSuccess($product->load('product_asset'));
     }
 
     public function show($id)

@@ -21,7 +21,7 @@ class ProductAssetRequest extends ApiRequest
     public function rules()
     {
         return [            
-            'image' => 'required|mimes:jpg,bmp,png',            
+            'image' => 'required|mimes:jpeg,png,jpg,gif,svg,bmp',            
         ];
     }
 }
